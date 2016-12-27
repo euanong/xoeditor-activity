@@ -4,24 +4,27 @@ define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','act
 	require(['domReady!'], function (doc) {
 
 		// Initialize the activity.
-		runactivity(act,doc);
-
+		require(['sugar-web/graphics/xocolor'], function(xocol) {
+		  runactivity(act,xocol,doc);
+		});
 	});
 
 });
 
-function runactivity(act,doc){
+function runactivity(act,xocolor,doc){
 	var canvas;
 	var stage;
 	var g;
 
 	function init(){
 		//console.log(doc);
-		console.log(act);
+		//console.log(act);
+		//console.log(xocolor);
 		canvas = document.getElementById('actualcanvas');
     	canvas.width = window.innerWidth; 
     	canvas.height = window.innerHeight-55;
     	stage = new createjs.Stage(canvas);
+    	stage.update();
     	stage.mouseEventsEnabled = true;
     	createjs.Ticker.setFPS(30);
     	createjs.Ticker.addEventListener("tick", handleTick);
@@ -39,7 +42,7 @@ function runactivity(act,doc){
 	        canvas.height = window.innerHeight-55;
 	        stage.update();
 	    }
-	    var e = new Editor(stage);
+	    var e = new Editor(stage,xocolor);
 	    e.init();
 	}
     init();

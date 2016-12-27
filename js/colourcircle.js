@@ -1,24 +1,25 @@
 function ColourCircle(innercol, outercol, x, y, stage){
-	this.container = null;
-	this.radius = 22.5;
-	this.strokewidth = 9.5;
+	//this.container = null;
+	this.scale = stage.canvas.width/1200;
+	this.radius = 22.5*this.scale;
+	this.strokewidth = 9.5*this.scale;
 	this.innercol = innercol;
 	this.outercol = outercol;
 	this.circle = null;
 	this.dragging = false;
-	this.createContainer = function(){
-		this.container = new createjs.Container();
-	}
+	//this.createContainer = function(){
+	//	this.container = new createjs.Container();
+	//}
 
 	this.setContainerPosition = function(x,y){
-		this.container.x = x;
-		this.container.y = y;
-		stage.addChild(this.container);
+		this.circle.x = x;
+		this.circle.y = y;
+		stage.addChild(this.circle);
 		stage.update();
 	}
 
 	this.setDragDropListeners = function(){
-		var c = this.container;
+		var c = this.circle;
 		var d = this;
 		var s = stage;
 		this.circle.on("mousedown", function (evt) {
@@ -40,17 +41,15 @@ function ColourCircle(innercol, outercol, x, y, stage){
 	}
 
 	this.init = function(){
-		this.createContainer();
 		var circle = new createjs.Shape();
 		circle.graphics.beginFill(this.innercol).drawCircle(0,0,this.radius);
 		circle.graphics.beginStroke(this.outercol);
 		circle.graphics.setStrokeStyle(this.strokewidth);
 		circle.graphics.drawCircle(0,0,this.radius);
 		this.circle = circle;
-		this.container.addChild(circle);
 		this.setContainerPosition(x,y);
 		this.setDragDropListeners();
 		stage.update();
-		console.log(this.container);
+		//console.log(this.container);
 	}
 }

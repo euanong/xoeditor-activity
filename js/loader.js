@@ -16,4 +16,4 @@ requirejs.config({
     },
     packages: []
 });
-requirejs(["activity/activity"]);
+requirejs(["activity/activity","sugar-web/graphics/xocolor"]);
