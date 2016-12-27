@@ -5,6 +5,7 @@ function ColourCircle(innercol, outercol, x, y, stage){
 	this.innercol = innercol;
 	this.outercol = outercol;
 	this.circle = null;
+	this.dragging = false;
 	this.createContainer = function(){
 		this.container = new createjs.Container();
 	}
@@ -22,10 +23,19 @@ function ColourCircle(innercol, outercol, x, y, stage){
 		var s = stage;
 		this.circle.on("mousedown", function (evt) {
 			this.offset = {x: c.x - evt.stageX, y: c.y - evt.stageY};
+			this.dragging = false;
 		});
 		this.circle.on("pressmove", function (evt) {
 			c.x = evt.stageX + this.offset.x;
 			c.y = evt.stageY + this.offset.y;
+			this.dragging = true;
+		});
+		this.circle.on("click", function (evt) {
+			if (this.dragging!=true){
+				//it's a click
+				console.log("click");
+			}
+			this.dragging = false;
 		});
 	}
 
