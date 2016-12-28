@@ -6,13 +6,15 @@ define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','act
 		// Initialize the activity.
 		require(['sugar-web/graphics/xocolor'], function(xocol) {
 			act.setup();
-		  	runactivity(act,xocol,doc);
+			act.getXOColor(function (error, colors) {
+				runactivity(act,xocol,doc,colors);
+			});
 		});
 	});
 
 });
 
-function runactivity(act,xocolor,doc){
+function runactivity(act,xocolor,doc,colors){
 	var canvas;
 	var stage;
 	var g;
@@ -21,6 +23,7 @@ function runactivity(act,xocolor,doc){
 		//console.log(doc);
 		//console.log(act);
 		//console.log(xocolor);
+		console.log(colors);
 		canvas = document.getElementById('actualcanvas');
     	canvas.width = window.innerWidth; 
     	canvas.height = window.innerHeight-55;
@@ -43,7 +46,7 @@ function runactivity(act,xocolor,doc){
 	        canvas.height = window.innerHeight-55;
 	        stage.update();
 	    }
-	    var e = new Editor(stage,xocolor,doc);
+	    var e = new Editor(stage,xocolor,doc,colors);
 	    setTimeout(function(){ e.init(); }, 500);
 	    //e.init();
 	}

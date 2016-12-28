@@ -1,4 +1,4 @@
-function Editor(stage,xocol,doc){
+function Editor(stage,xocol,doc,colors){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -83,7 +83,7 @@ function Editor(stage,xocol,doc){
 	} 
 	this.init = function(){
 		this.calczones();
-		var xo = new XOMan("#005FE4","#00EA11",this,doc);
+		var xo = new XOMan(colors.fill,colors.stroke,this,doc);
 		xo.init();
 		this.xo = xo;
 		for (var z = 0; z<4; z++){
