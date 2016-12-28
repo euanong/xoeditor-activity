@@ -9,6 +9,7 @@ function Editor(stage,xocol,doc){
 	this.zones = [];
 	this.dots = [];
 	this.stage = stage;
+	this.xo = null;
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -82,19 +83,20 @@ function Editor(stage,xocol,doc){
 	} 
 	this.init = function(){
 		this.calczones();
+		var xo = new XOMan("#005FE4","#00EA11",this,doc);
+		xo.init();
+		this.xo = xo;
 		for (var z = 0; z<4; z++){
 			for (var i in xocol.colors){
 				//console.log(this.zones[i]);
 				if (this.zones[i]==z){
 					//console.log(i);
-					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage);
+					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo);
 					c.init();
 					this.dots.push(c);
 					this.nextdotposition();
 				}
 			}
 		}
-		var xo = new XOMan("#005FE4","#00EA11",this,doc);
-		xo.init();
 	}
 }

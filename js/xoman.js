@@ -1,6 +1,7 @@
-function XOMan(innercol, outercol, editor,doc){
-	this.svgwidth;
-	this.svgheight;
+function XOMan(innerc, outerc, editor,doc){
+	this.svgwidth = null;
+	this.svgheight = null;
+	this.xomanpic = null;
 	this.xoSVG = function(innercol,outercol){
         this.svgwidth = 240 * editor.scale;
         this.svgheight = 260 * editor.scale;
@@ -24,9 +25,31 @@ function XOMan(innercol, outercol, editor,doc){
         return '</svg>';
     }
 
+    this.updateSVG = function(icol, ocol){
+    	//console.log("svgman");
+    	//console.log(icol);
+    	//console.log(ocol);
+    	var svg = this.xoSVG(icol,ocol);
+    	var svg = window.btoa(svg);
+    	//console.log(svg);
+    	//doc.getElementById("svgstore").innerHTML = svg;
+    	//var bitmap = new createjs.Bitmap(doc.getElementById("xomansvg"));
+    	//var source = doc.getElementById("xoimg");
+		//source.src = 'data:image/svg+xml;base64,'+svg;
+		var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
+		bitmap.x = editor.stage.canvas.width/2-this.svgwidth/2;
+    	bitmap.y = editor.stage.canvas.height/2-this.svgheight/2;
+    	//editor.stage.addChild(bitmap);
+    	editor.stage.removeChild(this.xomanpic);
+    	this.xomanpic = bitmap;
+    	editor.stage.addChild(this.xomanpic);
+    	editor.stage.update();
+    	console.log("update");
+    }
+
     this.init = function(){
     	console.log("svgman");
-    	var svg = this.xoSVG(innercol,outercol);
+    	var svg = this.xoSVG(innerc,outerc);
     	var svg = window.btoa(svg);
     	console.log(svg);
     	//doc.getElementById("svgstore").innerHTML = svg;
@@ -34,9 +57,10 @@ function XOMan(innercol, outercol, editor,doc){
     	//var source = doc.getElementById("xoimg");
 		//source.src = 'data:image/svg+xml;base64,'+svg;
     	var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
-    	bitmap.x = 700;
-    	bitmap.y = 700;
-    	editor.stage.addChild(bitmap);
+    	bitmap.x = editor.stage.canvas.width/2-this.svgwidth/2;
+    	bitmap.y = editor.stage.canvas.height/2-this.svgheight/2;
+    	this.xomanpic = bitmap;
+    	editor.stage.addChild(this.xomanpic);
     	editor.stage.update();
     	console.log(bitmap);
     }
