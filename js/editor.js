@@ -7,6 +7,7 @@ function Editor(stage,xocol){
 	this.dmin = 0;
 	this.dmax = stage.canvas.height-(this.dotsizeplus/2.2);
 	this.zones = [];
+	this.dots = [];
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -87,6 +88,7 @@ function Editor(stage,xocol){
 					//console.log(i);
 					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage);
 					c.init();
+					this.dots.push(c);
 					this.nextdotposition();
 				}
 			}

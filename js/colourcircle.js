@@ -15,7 +15,6 @@ function ColourCircle(innercol, outercol, x, y, stage){
 		this.circle.x = x;
 		this.circle.y = y;
 		stage.addChild(this.circle);
-		stage.update();
 	}
 
 	this.setDragDropListeners = function(){
@@ -49,7 +48,6 @@ function ColourCircle(innercol, outercol, x, y, stage){
 		this.circle = circle;
 		this.setContainerPosition(x,y);
 		this.setDragDropListeners();
-		stage.update();
 		//console.log(this.container);
 	}
 }

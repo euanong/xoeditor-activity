@@ -43,7 +43,8 @@ function runactivity(act,xocolor,doc){
 	        stage.update();
 	    }
 	    var e = new Editor(stage,xocolor);
-	    e.init();
+	    setTimeout(function(){ e.init(); }, 500);
+	    //e.init();
 	}
     init();
 }
