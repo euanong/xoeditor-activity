@@ -1,4 +1,4 @@
-define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','activity/colourcircle'], function (act) {
+define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','activity/colourcircle','activity/xoman'], function (act) {
 
 	// Manipulate the DOM only when it is ready.
 	require(['domReady!'], function (doc) {
@@ -42,7 +42,7 @@ function runactivity(act,xocolor,doc){
 	        canvas.height = window.innerHeight-55;
 	        stage.update();
 	    }
-	    var e = new Editor(stage,xocolor);
+	    var e = new Editor(stage,xocolor,doc);
 	    setTimeout(function(){ e.init(); }, 500);
 	    //e.init();
 	}

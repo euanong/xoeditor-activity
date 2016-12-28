@@ -1,4 +1,4 @@
-function Editor(stage,xocol){
+function Editor(stage,xocol,doc){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -8,6 +8,7 @@ function Editor(stage,xocol){
 	this.dmax = stage.canvas.height-(this.dotsizeplus/2.2);
 	this.zones = [];
 	this.dots = [];
+	this.stage = stage;
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -93,5 +94,7 @@ function Editor(stage,xocol){
 				}
 			}
 		}
+		var xo = new XOMan("#005FE4","#00EA11",this,doc);
+		xo.init();
 	}
 }
