@@ -5,7 +5,8 @@ define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','act
 
 		// Initialize the activity.
 		require(['sugar-web/graphics/xocolor'], function(xocol) {
-		  runactivity(act,xocol,doc);
+			act.setup();
+		  	runactivity(act,xocol,doc);
 		});
 	});
 
