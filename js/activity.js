@@ -18,6 +18,7 @@ function runactivity(act,xocolor,doc,colors){
 	var canvas;
 	var stage;
 	var g;
+	var e;
 
 	function init(){
 		//console.log(doc);
@@ -35,20 +36,20 @@ function runactivity(act,xocolor,doc,colors){
 		function handleTick() {
 		    stage.update();
 		}
-	    var stopButton = doc.getElementById("stop-button");
-        stopButton.addEventListener('click', function (e) {
-        	console.log("close");
-            act.close();
-        });
 	    window.addEventListener('resize', resizeCanvas, false);
 	    function resizeCanvas() {
 	        canvas.width = window.innerWidth;
 	        canvas.height = window.innerHeight-55;
 	        stage.update();
 	    }
-	    var e = new Editor(stage,xocolor,doc,colors);
+	    e = new Editor(stage,xocolor,doc,colors,act);
 	    setTimeout(function(){ e.init(); }, 500);
 	    //e.init();
+	    var saveButton = doc.getElementById("save-button");
+        saveButton.addEventListener('click', function (a) {
+        	console.log("save");
+            e.saveColours();
+        });
 	}
     init();
 }

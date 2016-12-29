@@ -1,35 +1,7 @@
 <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd' [
-	<!ENTITY stroke_color "#666666">
-	<!ENTITY fill_color "#ffffff">
-]><svg height="55" width="55" xmlns="http://www.w3.org/2000/svg">
- <g>
-  <title>background</title>
-  <rect fill="none" height="57" id="canvas_background" width="57" x="-1" y="-1"/>
- </g>
-
- <g>
-  <title>Layer 1</title>
-  <path d="m6.37417,53.323129c0.7952,1.510868 7.02735,0.077373 9.61466,-1.918759c2.45089,-1.878109 3.73929,-3.404723 5.05568,-3.404723c1.32106,0 14.62137,1.206604 24.40976,-7.495356c8.42419,-7.484868 11.39511,-18.083289 5.27022,-28.115136c-6.12372,-10.025296 -16.12781,-11.908644 -24.34329,-11.226651c-11.21205,0.940367 -25.88239,10.865981 -25.3542,25.821283c0.30782,8.801642 3.91419,11.991266 5.73894,14.037243c1.82126,2.053851 5.29937,2.053851 3.48861,7.3288c-0.71125,2.07089 -4.47503,3.82702 -3.88038,4.9733z" fill="&fill_color;" id="svg_1" stroke="&stroke_color;" stroke-width="2"/>
-  <g id="svg_12" stroke="null">
-   <line fill="none" fill-opacity="null" id="svg_3" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" stroke-width="2" x1="12.113886" x2="6.047016" y1="8.670695" y2="33.453382"/>
-   <line fill="none" fill-opacity="null" id="svg_4" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" stroke-width="2" x1="42.751294" x2="48.952982" y1="8.599222" y2="33.32838"/>
-   <line fill="none" fill-opacity="null" id="svg_9" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" stroke-width="2" x1="27.561643" x2="27.561643" y1="10.0763" y2="32.756608"/>
-   <path d="m11.4447,9.37952c4.64046,-1.66766 10.36395,0.73855 15.1398,0.78619c5.70845,-0.07941 11.68765,-2.37443 16.7192,-0.88148" fill="none" fill-opacity="null" id="svg_10" stroke="&stroke_color;" stroke-opacity="null" stroke-width="2"/>
-   <path d="m6.66845,32.77727c5.82355,-2.52533 14.84955,1.5962 20.78256,0.78618c7.50058,0.84973 15.49379,-3.51797 21.07839,-0.88147" fill="none" fill-opacity="null" id="svg_11" stroke="&stroke_color;" stroke-opacity="null" stroke-width="2"/>
-  </g>
-  <g id="svg_18">
-   <line fill="none" fill-opacity="null" id="svg_13" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="14.468788" x2="23.468762" y1="13.093792" y2="13.78129"/>
-   <line fill="none" fill-opacity="null" id="svg_14" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="13.96879" x2="23.531261" y1="16.093783" y2="16.781281"/>
-   <line fill="none" fill-opacity="null" id="svg_15" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="13.406291" x2="23.468762" y1="19.031275" y2="19.718773"/>
-   <line fill="none" fill-opacity="null" id="svg_16" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="12.906293" x2="23.281262" y1="21.718767" y2="22.406265"/>
-   <line fill="none" fill-opacity="null" id="svg_17" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="12.343794" x2="23.093762" y1="24.718758" y2="25.406256"/>
-  </g>
-  <g id="svg_30" transform="rotate(-13 36.31247329711914,19.06252479553222) ">
-   <line fill="none" fill-opacity="null" id="svg_25" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="32.843734" x2="41.843708" y1="12.906293" y2="13.593791"/>
-   <line fill="none" fill-opacity="null" id="svg_26" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="32.343735" x2="41.906207" y1="15.906284" y2="16.593782"/>
-   <line fill="none" fill-opacity="null" id="svg_27" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="31.781237" x2="41.843708" y1="18.843775" y2="19.531273"/>
-   <line fill="none" fill-opacity="null" id="svg_28" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="31.281239" x2="41.656207" y1="21.531267" y2="22.218765"/>
-   <line fill="none" fill-opacity="null" id="svg_29" stroke="&stroke_color;" stroke-linecap="null" stroke-linejoin="null" stroke-opacity="null" x1="30.71874" x2="41.468708" y1="24.531258" y2="25.218756"/>
-  </g>
- </g>
-</svg>
+	<!ENTITY stroke_color "#010101">
+	<!ENTITY fill_color "#FFFFFF">
+]><svg enable-background="new 0 0 55 55" height="55px" version="1.1" viewBox="0 0 55 55" width="55px" x="0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" y="0px"><g display="block" id="stock-xo_1_">
+	<path d="M33.233,35.1l10.102,10.1c0.752,0.75,1.217,1.783,1.217,2.932   c0,2.287-1.855,4.143-4.146,4.143c-1.145,0-2.178-0.463-2.932-1.211L27.372,40.961l-10.1,10.1c-0.75,0.75-1.787,1.211-2.934,1.211   c-2.284,0-4.143-1.854-4.143-4.141c0-1.146,0.465-2.184,1.212-2.934l10.104-10.102L11.409,24.995   c-0.747-0.748-1.212-1.785-1.212-2.93c0-2.289,1.854-4.146,4.146-4.146c1.143,0,2.18,0.465,2.93,1.214l10.099,10.102l10.102-10.103   c0.754-0.749,1.787-1.214,2.934-1.214c2.289,0,4.146,1.856,4.146,4.145c0,1.146-0.467,2.18-1.217,2.932L33.233,35.1z" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3.5"/>
+	<circle cx="27.371" cy="10.849" fill="&fill_color;" r="8.122" stroke="&stroke_color;" stroke-width="3.5"/>
+</g></svg>

@@ -1,4 +1,4 @@
-function Editor(stage,xocol,doc,colors){
+function Editor(stage,xocol,doc,colors,activity){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -81,9 +81,35 @@ function Editor(stage,xocol,doc,colors){
 			this.nextdotposition();
 		}
 	} 
+
+	this.saveColours = function(){
+		console.log(this.xo.stroke);
+		console.log(this.xo.fill);
+		console.log(this.xo.colnumber);
+		var jsonparsed = JSON.parse(localStorage.getItem("sugar_settings"));
+		jsonparsed.colorvalue.stroke = this.xo.stroke;
+		jsonparsed.colorvalue.fill = this.xo.fill;
+		jsonparsed.color = this.xo.colnumber;
+		console.log(jsonparsed.color);
+		//activity.getDatastoreObject().setDataAsText(jsonparsed);
+        //activity.getDatastoreObject().save(function (error) {
+        //    if (error === null) {
+        //        console.log("write done.");
+        //    }
+        //    else {
+        //        console.log("write failed.");
+        //    }
+        //});
+        localStorage.setItem("sugar_settings",JSON.stringify(jsonparsed));
+		console.log(JSON.parse(localStorage.getItem("sugar_settings")));
+	}
+
 	this.init = function(){
+		var cnum = JSON.parse(localStorage.getItem("sugar_settings"));
+		console.log(cnum.color);
+		//localStorage.setItem("sugar_settings",JSON.stringify(settings));
 		this.calczones();
-		var xo = new XOMan(colors.fill,colors.stroke,this,doc);
+		var xo = new XOMan(colors.fill,colors.stroke,this,cnum.color);
 		xo.init();
 		this.xo = xo;
 		for (var z = 0; z<4; z++){
@@ -91,7 +117,7 @@ function Editor(stage,xocol,doc,colors){
 				//console.log(this.zones[i]);
 				if (this.zones[i]==z){
 					//console.log(i);
-					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo);
+					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
 					c.init();
 					this.dots.push(c);
 					this.nextdotposition();

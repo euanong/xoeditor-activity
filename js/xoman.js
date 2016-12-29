@@ -1,7 +1,11 @@
-function XOMan(innerc, outerc, editor,doc){
+function XOMan(innerc, outerc, editor,num){
 	this.svgwidth = null;
 	this.svgheight = null;
 	this.xomanpic = null;
+	this.stroke = outerc;
+	this.fill = innerc;
+	this.colnumber = num;
+
 	this.xoSVG = function(innercol,outercol){
         this.svgwidth = 240 * editor.scale;
         this.svgheight = 260 * editor.scale;
@@ -13,7 +17,7 @@ function XOMan(innerc, outerc, editor,doc){
             '<path id="Fill1" d="M'+(165.5 * editor.scale).toFixed(1)+','+(97 * editor.scale).toFixed(1)+' C'+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(74.5 * editor.scale).toFixed(1)+','+(188 * editor.scale).toFixed(1)+'" stroke="'+innercol+'" stroke-width="'+(17 * editor.scale).toFixed(1)+'" stroke-linecap="round" fill="none" visibility="visible" />' +
             '<path id="Fill2" d="M'+(165.5 * editor.scale).toFixed(1)+','+(188 * editor.scale).toFixed(1)+' C'+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(74.5 * editor.scale).toFixed(1)+','+(97 * editor.scale).toFixed(1)+'" stroke="'+innercol+'" stroke-width="'+(17 * editor.scale).toFixed(1)+'" stroke-linecap="round" fill="none" visibility="visible" />' +
             '<circle id="Circle" cx="'+(120 * editor.scale).toFixed(1)+'" cy="'+(61.5 * editor.scale).toFixed(1)+'" r="'+(27.5 * editor.scale).toFixed(1)+'" fill="'+innercol+'" stroke="'+outercol+'" stroke-width="'+(11 * editor.scale).toFixed(1)+'" visibility="visible" />'+'</g></g>\n'+this.footer();
-        console.log(svgstring);
+        //console.log(svgstring);
         return svgstring;
 	}
 
@@ -25,7 +29,10 @@ function XOMan(innerc, outerc, editor,doc){
         return '</svg>';
     }
 
-    this.updateSVG = function(icol, ocol){
+    this.updateSVG = function(icol, ocol, number){
+    	this.stroke = ocol;
+		this.fill = icol;
+		this.colnumber = number;
     	//console.log("svgman");
     	//console.log(icol);
     	//console.log(ocol);
@@ -48,7 +55,12 @@ function XOMan(innerc, outerc, editor,doc){
     }
 
     this.init = function(){
+    	this.stroke = outerc;
+		this.fill = innerc;
+		this.colnumber = num;
     	console.log("svgman");
+    	console.log(num);
+    	console.log(this.colnumber);
     	var svg = this.xoSVG(innerc,outerc);
     	var svg = window.btoa(svg);
     	console.log(svg);
