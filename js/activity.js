@@ -41,6 +41,7 @@ function runactivity(act,xocolor,doc,colors){
 	        canvas.width = window.innerWidth;
 	        canvas.height = window.innerHeight-55;
 	        stage.update();
+	        location.reload();
 	    }
 	    e = new Editor(stage,xocolor,doc,colors,act);
 	    setTimeout(function(){ e.init(); }, 500);
@@ -50,6 +51,20 @@ function runactivity(act,xocolor,doc,colors){
         	console.log("save");
             e.saveColours();
         });
+        var resetButton = doc.getElementById("reset-button");
+        resetButton.addEventListener('click', function (a) {
+        	console.log("reset");
+        	localStorage.removeItem("xoeditor_dots");
+            location.reload();
+        });
+        window.addEventListener('activityStop', stopAct);
+	    function stopAct(eve) {
+	        eve.preventDefault();
+	        e.stop();
+	        console.log("close");
+	        act.close();
+	        
+	    }
 	}
     init();
 }

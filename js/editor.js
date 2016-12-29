@@ -10,6 +10,8 @@ function Editor(stage,xocol,doc,colors,activity){
 	this.dots = [];
 	this.stage = stage;
 	this.xo = null;
+	this.width = stage.canvas.width;
+	this.height = stage.canvas.height;
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -104,7 +106,28 @@ function Editor(stage,xocol,doc,colors,activity){
 		console.log(JSON.parse(localStorage.getItem("sugar_settings")));
 	}
 
+	this.stop = function(){
+		var arr = [];
+		var temparr = {};
+		temparr.x = this.width;
+		temparr.y = this.height;
+		arr.push(temparr);
+		for (var i in this.dots){
+			temparr = {};
+			temparr.fill = this.dots[i].innercol;
+			temparr.stroke = this.dots[i].outercol;
+			temparr.x = this.dots[i].circle.x;
+			temparr.y = this.dots[i].circle.y;
+			temparr.num = this.dots[i].number;
+			arr.push(temparr);
+		}
+		console.log(arr);
+		localStorage.setItem("xoeditor_dots",JSON.stringify(arr));
+		console.log(JSON.stringify(arr));
+	}
+
 	this.init = function(){
+		this.dots = [];
 		var cnum = JSON.parse(localStorage.getItem("sugar_settings"));
 		console.log(cnum.color);
 		//localStorage.setItem("sugar_settings",JSON.stringify(settings));
@@ -112,16 +135,27 @@ function Editor(stage,xocol,doc,colors,activity){
 		var xo = new XOMan(colors.fill,colors.stroke,this,cnum.color);
 		xo.init();
 		this.xo = xo;
-		for (var z = 0; z<4; z++){
-			for (var i in xocol.colors){
-				//console.log(this.zones[i]);
-				if (this.zones[i]==z){
-					//console.log(i);
-					var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
-					c.init();
-					this.dots.push(c);
-					this.nextdotposition();
+		if (localStorage.getItem("xoeditor_dots") === null) {
+			for (var z = 0; z<4; z++){
+				for (var i in xocol.colors){
+					//console.log(this.zones[i]);
+					if (this.zones[i]==z){
+						//console.log(i);
+						var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
+						c.init();
+						this.dots.push(c);
+						this.nextdotposition();
+					}
 				}
+			}
+		} else {
+			var data = JSON.parse(localStorage.getItem("xoeditor_dots"));
+			var scalex = this.width/data[0].x;
+			var scaley = this.height/data[0].y;
+			for (var i = 1; i<data.length; i++){
+				var c = new ColourCircle(data[i].fill,data[i].stroke,data[i].x*scalex,data[i].y*scaley,stage,this.xo,data[i].num);
+				c.init();
+				this.dots.push(c);
 			}
 		}
 	}
