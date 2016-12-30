@@ -4,17 +4,17 @@ define(["sugar-web/activity/activity",'easeljs','tweenjs','activity/editor','act
 	require(['domReady!'], function (doc) {
 
 		// Initialize the activity.
-		require(['sugar-web/graphics/xocolor',"sugar-web/env"], function(xocol,env) {
+		require(['sugar-web/graphics/xocolor',"sugar-web/env","sugar-web/datastore"], function(xocol,env,datastore) {
 			act.setup();
 			act.getXOColor(function (error, colors) {
-				runactivity(act,xocol,doc,colors,env);
+				runactivity(act,xocol,doc,colors,env,datastore);
 			});
 		});
 	});
 
 });
 
-function runactivity(act,xocolor,doc,colors,env){
+function runactivity(act,xocolor,doc,colors,env,datastore){
 	var canvas;
 	var stage;
 	var g;
@@ -44,7 +44,7 @@ function runactivity(act,xocolor,doc,colors,env){
 	        stage.update();
 	        location.reload();
 	    }
-	    e = new Editor(stage,xocolor,doc,colors,act,env);
+	    e = new Editor(stage,xocolor,doc,colors,act,env,datastore);
 	    setTimeout(function(){ e.init(); }, 500);
 	    //e.init();
 	    var saveButton = doc.getElementById("save-button");
@@ -56,7 +56,7 @@ function runactivity(act,xocolor,doc,colors,env){
         resetButton.addEventListener('click', function (a) {
         	console.log("reset");
         	stage.removeAllChildren();
-        	e = new Editor(stage,xocolor,doc,colors,act,env,true);
+        	e = new Editor(stage,xocolor,doc,colors,act,env,datastore,true);
         	e.init();
         });
         window.addEventListener('activityStop', stopAct);

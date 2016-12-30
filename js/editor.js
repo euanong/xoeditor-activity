@@ -1,4 +1,4 @@
-function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
+function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -13,6 +13,7 @@ function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
 	this.width = stage.canvas.width;
 	this.height = stage.canvas.height;
 	this.env = env;
+	this.ds = datastore;
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -89,7 +90,7 @@ function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
 		console.log(this.xo.stroke);
 		console.log(this.xo.fill);
 		console.log(this.xo.colnumber);
-		var jsonparsed = JSON.parse(localStorage.getItem("sugar_settings"));
+		var jsonparsed = this.ds.localStorage.getValue('sugar_settings');
 		jsonparsed.colorvalue.stroke = this.xo.stroke;
 		jsonparsed.colorvalue.fill = this.xo.fill;
 		jsonparsed.color = this.xo.colnumber;
@@ -103,8 +104,10 @@ function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
         //        console.log("write failed.");
         //    }
         //});
-        localStorage.setItem("sugar_settings",JSON.stringify(jsonparsed));
-		console.log(JSON.parse(localStorage.getItem("sugar_settings")));
+        this.ds.localStorage.setValue('sugar_settings', jsonparsed);
+        //localStorage.setItem("sugar_settings",JSON.stringify(jsonparsed));
+		//console.log(JSON.parse(localStorage.getItem("sugar_settings")));
+		//console.log(this.ds.localStorage.getValue('sugar_settings'));
 	}
 
 	this.stop = function(){
@@ -140,23 +143,10 @@ function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
 	}
 
 	this.getSettings = function(isdata,data) {
-		var defaultSettings = {
-			name: "",
-			language: navigator.language
-		};
-		if (!env.isSugarizer()) {
-			this.init2(isdata,data,defaultSettings);
-			return;
-		}
-		if (typeof chrome != 'undefined' && chrome.app && chrome.app.runtime) {
-			var loadedSettings = JSON.parse(values.sugar_settings);
-			chrome.storage.local.get('sugar_settings', function(values) {
-				this.init2(isdata,data,loadedSettings);
-			}.bind(this));
-		} else {
-			var loadedSettings = JSON.parse(localStorage.sugar_settings);
-			this.init2(isdata,data,loadedSettings);
-		}
+		this.ds.localStorage.load(function() {
+			var preferences = this.ds.localStorage.getValue('sugar_settings');
+			this.init2(isdata,data,preferences);
+		}.bind(this));
 	}
 
 	this.init = function(){
