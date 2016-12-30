@@ -24,14 +24,17 @@ function runactivity(act,xocolor,doc,colors,env,datastore){
 		canvas = document.getElementById('actualcanvas');
     	canvas.width = window.innerWidth; 
     	canvas.height = window.innerHeight-55;
+
     	stage = new createjs.Stage(canvas);
     	stage.update();
     	stage.mouseEventsEnabled = true;
+
     	createjs.Ticker.setFPS(30);
     	createjs.Ticker.addEventListener("tick", handleTick);
 		function handleTick() {
 		    stage.update();
 		}
+
 	    window.addEventListener('resize', resizeCanvas, false);
 	    function resizeCanvas() {
 	        canvas.width = window.innerWidth;
@@ -39,25 +42,27 @@ function runactivity(act,xocolor,doc,colors,env,datastore){
 	        stage.update();
 	        location.reload();
 	    }
+
 	    e = new Editor(stage,xocolor,doc,colors,act,env,datastore);
 	    setTimeout(function(){ e.init(); }, 500);
+
 	    var saveButton = doc.getElementById("save-button");
         saveButton.addEventListener('click', function (a) {
             e.saveColours();
         });
+
         var resetButton = doc.getElementById("reset-button");
         resetButton.addEventListener('click', function (a) {
         	stage.removeAllChildren();
         	e = new Editor(stage,xocolor,doc,colors,act,env,datastore,true);
         	e.init();
         });
-        window.addEventListener('activityStop', stopAct);
-	    function stopAct(eve) {
-	        eve.preventDefault();
+
+        window.addEventListener('activityStop', function (eve) {
+        	eve.preventDefault();
 	        e.stop();
 	        act.close();
-	        
-	    }
+        });
 	}
     init();
 }

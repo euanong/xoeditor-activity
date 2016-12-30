@@ -100,6 +100,7 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 		temparr.x = this.width;
 		temparr.y = this.height;
 		arr.push(temparr);
+
 		for (var i in this.dots){
 			temparr = {};
 			temparr.fill = this.dots[i].innercol;
@@ -109,60 +110,61 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 			temparr.num = this.dots[i].number;
 			arr.push(temparr);
 		}
+		
 		var js = JSON.stringify(arr);
 		activity.getDatastoreObject().setDataAsText(js);
 		activity.getDatastoreObject().save();
 	}
 
-	this.getSettings = function(isdata,data) {
+	this.init = function(){
+		if (forcereload==true){
+			this.init_getsettings(false,[]);
+		} else {
+			activity.getDatastoreObject().getMetadata(this.init_canaccessdatastore.bind(this));
+		}
+	}
+
+	this.init_canaccessdatastore = function(error,mdata){
+		var d = new Date().getTime();
+		if (Math.abs(d-mdata.creation_time)<2000){
+			this.init_getsettings(false,[]);
+		} else {
+			activity.getDatastoreObject().loadAsText(this.init_getdatastore.bind(this));
+		}
+	}
+
+	this.init_getdatastore = function(error,metadata,data){
+		if (error==null&&data!=null){
+			data = JSON.parse(data);
+			this.init_getsettings(true,data);
+		} else {
+			this.init_getsettings(false,[]);
+		}
+	}
+
+	this.init_getsettings = function(isdata,data) {
 		this.ds.localStorage.load(function() {
 			var preferences = this.ds.localStorage.getValue('sugar_settings');
-			this.init2(isdata,data,preferences);
+			this.init_activity(isdata,data,preferences);
 		}.bind(this));
 	}
 
-	this.init = function(){
-		if (forcereload==true){
-			this.getSettings(false,[]);
-		} else {
-			activity.getDatastoreObject().getMetadata(this.initmdata.bind(this));
-		}
-	}
-
-	this.initmdata = function(error,mdata){
-		var d = new Date().getTime();
-		if (Math.abs(d-mdata.creation_time)<2000){
-			this.getSettings(false,[]);
-		} else {
-			activity.getDatastoreObject().loadAsText(this.initdatastore.bind(this));
-		}
-	}
-
-	this.initdatastore = function(error,metadata,data){
-		if (error==null&&data!=null){
-			data = JSON.parse(data);
-			this.getSettings(true,data);
-		} else {
-			this.getSettings(false,[]);
-		}
-	}
-
-	this.init2 = function(isdata, data,settings){
+	this.init_activity = function(isdata,data,settings){
 		this.dots = [];
-		var cnum = settings;
 		this.calczones();
+
+		var cnum = settings;
 		var xo = new XOMan(colors.fill,colors.stroke,this,cnum.color);
 		xo.init();
 		this.xo = xo;
-		var count = 0;
+
 		if (isdata==false) {
 			for (var z = 0; z<4; z++){
 				for (var i in xocol.colors){
 					if (this.zones[i]==z){
 						var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
+						c.init();
 						this.dots.push(c);
-						this.dots[count].init();
-						count++;
 						this.nextdotposition();
 					}
 				}
@@ -172,8 +174,8 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 			var scaley = this.height/data[0].y;
 			for (var i = 1; i<data.length; i++){
 				var c = new ColourCircle(data[i].fill,data[i].stroke,data[i].x*scalex,data[i].y*scaley,stage,this.xo,data[i].num);
+				c.init();
 				this.dots.push(c);
-				this.dots[i-1].init();
 			}
 		}
 	}

@@ -32,6 +32,7 @@ function XOMan(innerc, outerc, editor,num){
     	this.stroke = ocol;
 		this.fill = icol;
 		this.colnumber = number;
+
     	var svg = this.xoSVG(icol,ocol);
     	var svg = window.btoa(svg);
 		var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
@@ -47,6 +48,7 @@ function XOMan(innerc, outerc, editor,num){
     	this.stroke = outerc;
 		this.fill = innerc;
 		this.colnumber = num;
+		
     	var svg = this.xoSVG(innerc,outerc);
     	var svg = window.btoa(svg);
     	var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
