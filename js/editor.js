@@ -122,12 +122,52 @@ function Editor(stage,xocol,doc,colors,activity){
 			arr.push(temparr);
 		}
 		console.log(arr);
-		localStorage.setItem("xoeditor_dots",JSON.stringify(arr));
-		console.log(JSON.stringify(arr));
+		//localStorage.setItem("xoeditor_dots",JSON.stringify(arr));
+		//console.log(JSON.stringify(arr));
+		var js = JSON.stringify(arr);
+		console.log(js);
+		activity.getDatastoreObject().setDataAsText(js);
+		activity.getDatastoreObject().save(function (error) {
+            if (error === null) {
+                console.log("write done.");
+            }
+            else {
+                console.log("write failed.");
+            }
+        });
+		activity.getDatastoreObject().loadAsText(function(error,metadata,text){console.log(error);console.log(metadata);console.log(text);});
+	}
+	this.init = function(){
+		activity.getDatastoreObject().getMetadata(this.initmdata.bind(this));
 	}
 
-	this.init = function(){
+	this.initmdata = function(error,mdata){
+		console.log(mdata);
+		var d = new Date().getTime();
+		if (Math.abs(d-mdata.creation_time)<2000){
+			console.log("don't use datastore");
+			this.init2(false,[]);
+		} else {
+			//datastore
+			console.log("use datastore");
+			activity.getDatastoreObject().loadAsText(this.initdatastore.bind(this));
+		}
+		//this.init2();
+	}
+
+	this.initdatastore = function(error,metadata,data){
+		if (error==null&&data!=null){
+			data = JSON.parse(data);
+			console.log(data);
+			this.init2(true,data);
+		} else {
+			this.init2(false,[]);
+		}
+	}
+
+	this.init2 = function(isdata, data){
 		this.dots = [];
+		//activity.getDatastoreObject().getMetadata(function(error,data){console.log(data);});
 		var cnum = JSON.parse(localStorage.getItem("sugar_settings"));
 		console.log(cnum.color);
 		//localStorage.setItem("sugar_settings",JSON.stringify(settings));
@@ -135,27 +175,30 @@ function Editor(stage,xocol,doc,colors,activity){
 		var xo = new XOMan(colors.fill,colors.stroke,this,cnum.color);
 		xo.init();
 		this.xo = xo;
-		if (localStorage.getItem("xoeditor_dots") === null) {
+		var count = 0;
+		if (isdata==false) {
 			for (var z = 0; z<4; z++){
 				for (var i in xocol.colors){
 					//console.log(this.zones[i]);
 					if (this.zones[i]==z){
 						//console.log(i);
 						var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
-						c.init();
 						this.dots.push(c);
+						this.dots[count].init();
+						count++;
 						this.nextdotposition();
 					}
 				}
 			}
 		} else {
-			var data = JSON.parse(localStorage.getItem("xoeditor_dots"));
+			console.log("load objects");
+			//var data = JSON.parse(localStorage.getItem("xoeditor_dots"));
 			var scalex = this.width/data[0].x;
 			var scaley = this.height/data[0].y;
 			for (var i = 1; i<data.length; i++){
 				var c = new ColourCircle(data[i].fill,data[i].stroke,data[i].x*scalex,data[i].y*scaley,stage,this.xo,data[i].num);
-				c.init();
 				this.dots.push(c);
+				this.dots[i-1].init();
 			}
 		}
 	}

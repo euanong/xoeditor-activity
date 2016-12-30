@@ -54,7 +54,7 @@ function runactivity(act,xocolor,doc,colors){
         var resetButton = doc.getElementById("reset-button");
         resetButton.addEventListener('click', function (a) {
         	console.log("reset");
-        	localStorage.removeItem("xoeditor_dots");
+        	
             location.reload();
         });
         window.addEventListener('activityStop', stopAct);
