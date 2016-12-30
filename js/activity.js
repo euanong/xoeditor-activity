@@ -54,8 +54,9 @@ function runactivity(act,xocolor,doc,colors){
         var resetButton = doc.getElementById("reset-button");
         resetButton.addEventListener('click', function (a) {
         	console.log("reset");
-        	
-            location.reload();
+        	stage.removeAllChildren();
+        	e = new Editor(stage,xocolor,doc,colors,act,true);
+        	e.init();
         });
         window.addEventListener('activityStop', stopAct);
 	    function stopAct(eve) {

@@ -1,4 +1,4 @@
-function Editor(stage,xocol,doc,colors,activity){
+function Editor(stage,xocol,doc,colors,activity,forcereload=false){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -138,7 +138,11 @@ function Editor(stage,xocol,doc,colors,activity){
 		activity.getDatastoreObject().loadAsText(function(error,metadata,text){console.log(error);console.log(metadata);console.log(text);});
 	}
 	this.init = function(){
-		activity.getDatastoreObject().getMetadata(this.initmdata.bind(this));
+		if (forcereload==true){
+			this.init2(false,[]);
+		} else {
+			activity.getDatastoreObject().getMetadata(this.initmdata.bind(this));
+		}
 	}
 
 	this.initmdata = function(error,mdata){
