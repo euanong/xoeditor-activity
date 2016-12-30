@@ -17,7 +17,6 @@ function XOMan(innerc, outerc, editor,num){
             '<path id="Fill1" d="M'+(165.5 * editor.scale).toFixed(1)+','+(97 * editor.scale).toFixed(1)+' C'+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(74.5 * editor.scale).toFixed(1)+','+(188 * editor.scale).toFixed(1)+'" stroke="'+innercol+'" stroke-width="'+(17 * editor.scale).toFixed(1)+'" stroke-linecap="round" fill="none" visibility="visible" />' +
             '<path id="Fill2" d="M'+(165.5 * editor.scale).toFixed(1)+','+(188 * editor.scale).toFixed(1)+' C'+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(120 * editor.scale).toFixed(1)+','+(140.5 * editor.scale).toFixed(1)+' '+(74.5 * editor.scale).toFixed(1)+','+(97 * editor.scale).toFixed(1)+'" stroke="'+innercol+'" stroke-width="'+(17 * editor.scale).toFixed(1)+'" stroke-linecap="round" fill="none" visibility="visible" />' +
             '<circle id="Circle" cx="'+(120 * editor.scale).toFixed(1)+'" cy="'+(61.5 * editor.scale).toFixed(1)+'" r="'+(27.5 * editor.scale).toFixed(1)+'" fill="'+innercol+'" stroke="'+outercol+'" stroke-width="'+(11 * editor.scale).toFixed(1)+'" visibility="visible" />'+'</g></g>\n'+this.footer();
-        //console.log(svgstring);
         return svgstring;
 	}
 
@@ -33,47 +32,28 @@ function XOMan(innerc, outerc, editor,num){
     	this.stroke = ocol;
 		this.fill = icol;
 		this.colnumber = number;
-    	//console.log("svgman");
-    	//console.log(icol);
-    	//console.log(ocol);
     	var svg = this.xoSVG(icol,ocol);
     	var svg = window.btoa(svg);
-    	//console.log(svg);
-    	//doc.getElementById("svgstore").innerHTML = svg;
-    	//var bitmap = new createjs.Bitmap(doc.getElementById("xomansvg"));
-    	//var source = doc.getElementById("xoimg");
-		//source.src = 'data:image/svg+xml;base64,'+svg;
 		var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
 		bitmap.x = editor.stage.canvas.width/2-this.svgwidth/2;
     	bitmap.y = editor.stage.canvas.height/2-this.svgheight/2;
-    	//editor.stage.addChild(bitmap);
     	editor.stage.removeChild(this.xomanpic);
     	this.xomanpic = bitmap;
     	editor.stage.addChild(this.xomanpic);
     	editor.stage.update();
-    	console.log("update");
     }
 
     this.init = function(){
     	this.stroke = outerc;
 		this.fill = innerc;
 		this.colnumber = num;
-    	console.log("svgman");
-    	console.log(num);
-    	console.log(this.colnumber);
     	var svg = this.xoSVG(innerc,outerc);
     	var svg = window.btoa(svg);
-    	console.log(svg);
-    	//doc.getElementById("svgstore").innerHTML = svg;
-    	//var bitmap = new createjs.Bitmap(doc.getElementById("xomansvg"));
-    	//var source = doc.getElementById("xoimg");
-		//source.src = 'data:image/svg+xml;base64,'+svg;
     	var bitmap = new createjs.Bitmap('data:image/svg+xml;base64,'+svg);
     	bitmap.x = editor.stage.canvas.width/2-this.svgwidth/2;
     	bitmap.y = editor.stage.canvas.height/2-this.svgheight/2;
     	this.xomanpic = bitmap;
     	editor.stage.addChild(this.xomanpic);
     	editor.stage.update();
-    	console.log(bitmap);
     }
 }

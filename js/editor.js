@@ -87,27 +87,11 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 	} 
 
 	this.saveColours = function(){
-		console.log(this.xo.stroke);
-		console.log(this.xo.fill);
-		console.log(this.xo.colnumber);
 		var jsonparsed = this.ds.localStorage.getValue('sugar_settings');
 		jsonparsed.colorvalue.stroke = this.xo.stroke;
 		jsonparsed.colorvalue.fill = this.xo.fill;
 		jsonparsed.color = this.xo.colnumber;
-		console.log(jsonparsed.color);
-		//activity.getDatastoreObject().setDataAsText(jsonparsed);
-        //activity.getDatastoreObject().save(function (error) {
-        //    if (error === null) {
-        //        console.log("write done.");
-        //    }
-        //    else {
-        //        console.log("write failed.");
-        //    }
-        //});
         this.ds.localStorage.setValue('sugar_settings', jsonparsed);
-        //localStorage.setItem("sugar_settings",JSON.stringify(jsonparsed));
-		//console.log(JSON.parse(localStorage.getItem("sugar_settings")));
-		//console.log(this.ds.localStorage.getValue('sugar_settings'));
 	}
 
 	this.stop = function(){
@@ -125,21 +109,9 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 			temparr.num = this.dots[i].number;
 			arr.push(temparr);
 		}
-		//console.log(arr);
-		//localStorage.setItem("xoeditor_dots",JSON.stringify(arr));
-		//console.log(JSON.stringify(arr));
 		var js = JSON.stringify(arr);
-		//console.log(js);
 		activity.getDatastoreObject().setDataAsText(js);
-		activity.getDatastoreObject().save(function (error) {
-            if (error === null) {
-                console.log("write done.");
-            }
-            else {
-                console.log("write failed.");
-            }
-        });
-		//activity.getDatastoreObject().loadAsText(function(error,metadata,text){console.log(error);console.log(metadata);console.log(text);});
+		activity.getDatastoreObject().save();
 	}
 
 	this.getSettings = function(isdata,data) {
@@ -158,23 +130,17 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 	}
 
 	this.initmdata = function(error,mdata){
-		console.log(mdata);
 		var d = new Date().getTime();
 		if (Math.abs(d-mdata.creation_time)<2000){
-			console.log("don't use datastore");
 			this.getSettings(false,[]);
 		} else {
-			//datastore
-			console.log("use datastore");
 			activity.getDatastoreObject().loadAsText(this.initdatastore.bind(this));
 		}
-		//this.init2();
 	}
 
 	this.initdatastore = function(error,metadata,data){
 		if (error==null&&data!=null){
 			data = JSON.parse(data);
-			console.log(data);
 			this.getSettings(true,data);
 		} else {
 			this.getSettings(false,[]);
@@ -183,10 +149,7 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 
 	this.init2 = function(isdata, data,settings){
 		this.dots = [];
-		//activity.getDatastoreObject().getMetadata(function(error,data){console.log(data);});
 		var cnum = settings;
-		console.log(cnum.color);
-		//localStorage.setItem("sugar_settings",JSON.stringify(settings));
 		this.calczones();
 		var xo = new XOMan(colors.fill,colors.stroke,this,cnum.color);
 		xo.init();
@@ -195,9 +158,7 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 		if (isdata==false) {
 			for (var z = 0; z<4; z++){
 				for (var i in xocol.colors){
-					//console.log(this.zones[i]);
 					if (this.zones[i]==z){
-						//console.log(i);
 						var c = new ColourCircle(xocol.colors[i].fill,xocol.colors[i].stroke,this.xy[0]+15,this.xy[1],stage,this.xo,i);
 						this.dots.push(c);
 						this.dots[count].init();
@@ -207,8 +168,6 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 				}
 			}
 		} else {
-			console.log("load objects");
-			//var data = JSON.parse(localStorage.getItem("xoeditor_dots"));
 			var scalex = this.width/data[0].x;
 			var scaley = this.height/data[0].y;
 			for (var i = 1; i<data.length; i++){

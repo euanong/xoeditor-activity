@@ -1,5 +1,4 @@
 function ColourCircle(innercol, outercol, x, y, stage,xoman,arrno){
-	//this.container = null;
 	this.scale = stage.canvas.width/1200;
 	this.radius = 22.5*this.scale;
 	this.strokewidth = 9.5*this.scale;
@@ -8,9 +7,6 @@ function ColourCircle(innercol, outercol, x, y, stage,xoman,arrno){
 	this.circle = null;
 	this.dragging = false;
 	this.number = arrno;
-	//this.createContainer = function(){
-	//	this.container = new createjs.Container();
-	//}
 
 	this.setContainerPosition = function(x,y){
 		this.circle.x = x;
@@ -34,10 +30,6 @@ function ColourCircle(innercol, outercol, x, y, stage,xoman,arrno){
 		});
 		this.circle.on("click", function (evt) {
 			if (this.dragging!=true){
-				//it's a click
-				console.log("click");
-				console.log(d.innercol);
-				console.log(d.outercol);
 				xo.updateSVG(d.innercol,d.outercol,d.number);
 			}
 			this.dragging = false;
@@ -54,6 +46,5 @@ function ColourCircle(innercol, outercol, x, y, stage,xoman,arrno){
 		this.circle = circle;
 		this.setContainerPosition(x,y);
 		this.setDragDropListeners();
-		//console.log(this.container);
 	}
 }

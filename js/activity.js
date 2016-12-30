@@ -21,11 +21,6 @@ function runactivity(act,xocolor,doc,colors,env,datastore){
 	var e;
 
 	function init(){
-		//console.log(doc);
-		//console.log(act);
-		//console.log(xocolor);
-		console.log(colors);
-		console.log(env);
 		canvas = document.getElementById('actualcanvas');
     	canvas.width = window.innerWidth; 
     	canvas.height = window.innerHeight-55;
@@ -46,15 +41,12 @@ function runactivity(act,xocolor,doc,colors,env,datastore){
 	    }
 	    e = new Editor(stage,xocolor,doc,colors,act,env,datastore);
 	    setTimeout(function(){ e.init(); }, 500);
-	    //e.init();
 	    var saveButton = doc.getElementById("save-button");
         saveButton.addEventListener('click', function (a) {
-        	console.log("save");
             e.saveColours();
         });
         var resetButton = doc.getElementById("reset-button");
         resetButton.addEventListener('click', function (a) {
-        	console.log("reset");
         	stage.removeAllChildren();
         	e = new Editor(stage,xocolor,doc,colors,act,env,datastore,true);
         	e.init();
@@ -63,7 +55,6 @@ function runactivity(act,xocolor,doc,colors,env,datastore){
 	    function stopAct(eve) {
 	        eve.preventDefault();
 	        e.stop();
-	        console.log("close");
 	        act.close();
 	        
 	    }
