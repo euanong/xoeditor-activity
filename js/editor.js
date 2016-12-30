@@ -1,4 +1,4 @@
-function Editor(stage,xocol,doc,colors,activity,forcereload=false){
+function Editor(stage,xocol,doc,colors,activity,env,forcereload=false){
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -12,6 +12,7 @@ function Editor(stage,xocol,doc,colors,activity,forcereload=false){
 	this.xo = null;
 	this.width = stage.canvas.width;
 	this.height = stage.canvas.height;
+	this.env = env;
 
 	this.hexToRgb = function(hex) {
 	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -121,11 +122,11 @@ function Editor(stage,xocol,doc,colors,activity,forcereload=false){
 			temparr.num = this.dots[i].number;
 			arr.push(temparr);
 		}
-		console.log(arr);
+		//console.log(arr);
 		//localStorage.setItem("xoeditor_dots",JSON.stringify(arr));
 		//console.log(JSON.stringify(arr));
 		var js = JSON.stringify(arr);
-		console.log(js);
+		//console.log(js);
 		activity.getDatastoreObject().setDataAsText(js);
 		activity.getDatastoreObject().save(function (error) {
             if (error === null) {
@@ -135,11 +136,32 @@ function Editor(stage,xocol,doc,colors,activity,forcereload=false){
                 console.log("write failed.");
             }
         });
-		activity.getDatastoreObject().loadAsText(function(error,metadata,text){console.log(error);console.log(metadata);console.log(text);});
+		//activity.getDatastoreObject().loadAsText(function(error,metadata,text){console.log(error);console.log(metadata);console.log(text);});
 	}
+
+	this.getSettings = function(isdata,data) {
+		var defaultSettings = {
+			name: "",
+			language: navigator.language
+		};
+		if (!env.isSugarizer()) {
+			this.init2(isdata,data,defaultSettings);
+			return;
+		}
+		if (typeof chrome != 'undefined' && chrome.app && chrome.app.runtime) {
+			var loadedSettings = JSON.parse(values.sugar_settings);
+			chrome.storage.local.get('sugar_settings', function(values) {
+				this.init2(isdata,data,loadedSettings);
+			}.bind(this));
+		} else {
+			var loadedSettings = JSON.parse(localStorage.sugar_settings);
+			this.init2(isdata,data,loadedSettings);
+		}
+	}
+
 	this.init = function(){
 		if (forcereload==true){
-			this.init2(false,[]);
+			this.getSettings(false,[]);
 		} else {
 			activity.getDatastoreObject().getMetadata(this.initmdata.bind(this));
 		}
@@ -150,7 +172,7 @@ function Editor(stage,xocol,doc,colors,activity,forcereload=false){
 		var d = new Date().getTime();
 		if (Math.abs(d-mdata.creation_time)<2000){
 			console.log("don't use datastore");
-			this.init2(false,[]);
+			this.getSettings(false,[]);
 		} else {
 			//datastore
 			console.log("use datastore");
@@ -163,16 +185,16 @@ function Editor(stage,xocol,doc,colors,activity,forcereload=false){
 		if (error==null&&data!=null){
 			data = JSON.parse(data);
 			console.log(data);
-			this.init2(true,data);
+			this.getSettings(true,data);
 		} else {
-			this.init2(false,[]);
+			this.getSettings(false,[]);
 		}
 	}
 
-	this.init2 = function(isdata, data){
+	this.init2 = function(isdata, data,settings){
 		this.dots = [];
 		//activity.getDatastoreObject().getMetadata(function(error,data){console.log(data);});
-		var cnum = JSON.parse(localStorage.getItem("sugar_settings"));
+		var cnum = settings;
 		console.log(cnum.color);
 		//localStorage.setItem("sugar_settings",JSON.stringify(settings));
 		this.calczones();
