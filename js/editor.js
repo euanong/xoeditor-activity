@@ -1,4 +1,5 @@
-function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false){
+function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload){
+	if (forcereload === undefined) forcereload=false;
 	this.radius = 22.5;
 	this.scale = stage.canvas.width/1200;
 	this.cxy = [stage.canvas.width/2,stage.canvas.height/2];
@@ -84,14 +85,31 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 		if (this.xy[1]<this.dmin||this.xy[1]>this.dmax){
 			this.nextdotposition();
 		}
-	} 
+	}
 
 	this.saveColours = function(){
 		var jsonparsed = this.ds.localStorage.getValue('sugar_settings');
 		jsonparsed.colorvalue.stroke = this.xo.stroke;
 		jsonparsed.colorvalue.fill = this.xo.fill;
 		jsonparsed.color = this.xo.colnumber;
-        this.ds.localStorage.setValue('sugar_settings', jsonparsed);
+		this.ds.localStorage.setValue('sugar_settings', jsonparsed);
+		if (jsonparsed.networkId != null) {
+			// HACK: When connected to the server, should call the /api/users to update color on the server
+			var server = jsonparsed.server;
+			if (server == null) {
+				if (document.location.protocol.substr(0,4) == "http") {
+					var url = window.location.href.substr(document.location.protocol.length+2);
+					server = url.substring(0, url.indexOf('/activities'));;
+				} else {
+					server = "localhost";
+				}
+			}
+			server = "http://" + server + "/api/users/" + jsonparsed.networkId;
+			var request = new XMLHttpRequest();
+			request.open("PUT",server,true);
+			request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			request.send("user="+encodeURI(JSON.stringify({color: {stroke: this.xo.stroke, fill: this.xo.fill}})));
+		}
 	}
 
 	this.stop = function(){
@@ -110,7 +128,7 @@ function Editor(stage,xocol,doc,colors,activity,env,datastore,forcereload=false)
 			temparr.num = this.dots[i].number;
 			arr.push(temparr);
 		}
-		
+
 		var js = JSON.stringify(arr);
 		activity.getDatastoreObject().setDataAsText(js);
 		activity.getDatastoreObject().save();
